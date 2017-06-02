@@ -3,19 +3,21 @@ package com.example.miroslav.myapp.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.miroslav.myapp.R;
+import com.example.miroslav.myapp.adapters.StationsAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
+ * Use the {@link StationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class StationsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,7 +28,7 @@ public class MainFragment extends Fragment {
     private String mParam2;
 
 
-    public MainFragment() {
+    public StationsFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +38,11 @@ public class MainFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MainFragment.
+     * @return A new instance of fragment StationsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
+    public static StationsFragment newInstance(String param1, String param2) {
+        StationsFragment fragment = new StationsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,21 +63,17 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_stations, container, false);
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        StationsFragment stationsFragment1;
-        StationsFragment stationsFragment2;
-        StationsFragment stationsFragment3;
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recycler_stations);
+        recyclerView.setHasFixedSize(true);
 
-        stationsFragment1 = StationsFragment.newInstance("blah", "blah");
-        fm.beginTransaction().add(R.id.container_top_row, stationsFragment1).commit();
+        StationsAdapter adapter = new StationsAdapter();
+        recyclerView.setAdapter(adapter);
 
-        stationsFragment2 = StationsFragment.newInstance("blah", "blah");
-        fm.beginTransaction().add(R.id.container_middle_row, stationsFragment2).commit();
-
-        stationsFragment3 = StationsFragment.newInstance("blah", "blah");
-        fm.beginTransaction().add(R.id.container_bottom_row, stationsFragment3).commit();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
 
         return v;
     }
